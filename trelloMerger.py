@@ -8,8 +8,6 @@ PATH = "C:\\Users\\candi\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\CachedFi
 TRELLO_BOARD = "Personal"
 TRELLO_LIST = "Doing"
 
-
-
 def copyfiles(folder):
     for file in os.scandir(folder):
         if not os.path.exists(file.path+".bkp") and file.name.endswith(".jpg"):
@@ -44,7 +42,8 @@ def getTrello():
                 if TRELLO_LIST in list.name:
                     for card in list.list_cards():
                         order += 1
-                        cards += str(order) + "o. " + card.name + " (" + format(datetime.datetime.strptime(card.due, "%Y-%m-%dT%H:%M:%S.%fZ"), "%d/%m") + ")\n"
+                        due = card.due if card.due != None else datetime.datetime.now().isoformat() + "Z"
+                        cards += str(order) + "o. " + card.name + " (" + format(datetime.datetime.strptime(due, "%Y-%m-%dT%H:%M:%S.%fZ"), "%d/%m") + ")\n"
     return cards
     
 copyfiles(PATH)
